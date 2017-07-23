@@ -2,15 +2,11 @@
 'use strict';
 
 const path = require('path');
-const SG = require('strong-globalize');
-SG.SetRootDir(path.resolve(__dirname, '..'));
-const g = SG();
 const fs = require('fs');
 const semver = require('semver');
-
 const argv = require('yargs')
   .epilogue('Generate ES6 models from your Loopback 3 app')
-  .describe('u', g.f('URL of the REST API end-point'))
+  .describe('u', 'URL of the REST API end-point')
   .alias({ u: 'url', m: 'module-name', s: 'include-schema' })
   .usage('Usage: $0 [options] server/app.js (output folder)[src/api/]')
   .help().argv;
@@ -36,7 +32,7 @@ const writeFiles = require('../lib/utils/writeFiles');
 var appFile = path.resolve(argv._[0]);
 var outputFolder = argv._[1];
 
-g.error('Loading {{LoopBack}} app %j', appFile);
+console.log('Loading {{LoopBack}} app %j', appFile);
 var app = require(appFile);
 assertLoopBackVersion();
 
@@ -51,7 +47,7 @@ function runGenerator() {
   var apiUrl = argv['url'] || app.get('restApiRoot') || '/api';
   var includeSchema = argv['include-schema'] || false;
 
-  g.error('Generating %j for the API endpoint %j', ngModuleName, apiUrl);
+  console.log('Generating %j for the API endpoint %j', ngModuleName, apiUrl);
   var result = generator(app, {
     ngModuleName: ngModuleName,
     apiUrl: apiUrl,
@@ -60,12 +56,12 @@ function runGenerator() {
 
   if (outputFolder) {
     outputFolder = path.resolve(outputFolder);
-    g.error('Saving the generated services source to %j', outputFolder);
+    console.log('Saving the generated services source to %j', outputFolder);
     writeFiles(result, outputFolder).then(() => {
       process.exit();
     });
   } else {
-    g.error('Dumping to {{stdout}}');
+    console.log('Dumping to {{stdout}}');
     process.stdout.write(result);
   }
 }
@@ -80,7 +76,7 @@ function assertLoopBackVersion() {
   var loopback = Module._load('loopback', Module._cache[appFile]);
 
   if (semver.lt(loopback.version, '1.6.0')) {
-    g.error(
+    console.error(
       '\n' +
         'The code generator does not support applications based on\n' +
         '{{LoopBack}} versions older than 1.6.0. Please upgrade your project\n' +
