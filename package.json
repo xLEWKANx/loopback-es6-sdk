@@ -1,6 +1,6 @@
 {
   "name": "loopback-es6-sdk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Tool for auto-generating ES6 Classes for LoopBack Models",
   "engines": {
     "node": ">=6"
