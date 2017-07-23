@@ -1,0 +1,52 @@
+{
+  "name": "user",
+  "plural": "users",
+  "base": "User",
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "accessTokens": {
+      "type": "hasMany",
+      "model": "AccessToken",
+      "foreignKey": "userId"
+    },
+    "notes": {
+      "type": "hasMany",
+      "model": "Note",
+      "foreignKey": "userId"
+    },
+    "roles": {
+      "type": "hasMany",
+      "model": "Role",
+      "foreignKey": "principalId",
+      "through": "RoleMapping"
+    }
+  },
+  "acls": [
+  {
+    "accessType": "*",
+    "principalType": "ROLE",
+    "principalId": "admin",
+    "permission": "ALLOW"
+  },
+  {
+    "accessType": "READ",
+    "principalType": "ROLE",
+    "principalId": "$unauthenticated",
+    "permission": "ALLOW"
+  },
+  {
+    "accessType": "READ",
+    "principalType": "ROLE",
+    "principalId": "$authenticated",
+    "permission": "ALLOW"
+  },
+  {
+    "accessType": "*",
+    "principalType": "ROLE",
+    "principalId": "$owner",
+    "permission": "ALLOW"
+  }
+  ],
+  "methods": {}
+}

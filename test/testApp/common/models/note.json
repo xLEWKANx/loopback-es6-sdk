@@ -1,0 +1,106 @@
+{
+  "name": "Note",
+  "properties": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "content": {
+      "type": "string"
+    },
+    "userId": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {
+    "customPost": {
+      "accepts": [
+        { "arg": "arg1", "type": "number" },
+        { "arg": "arg2", "type": "number" },
+        { "arg": "query1", "type": "string" },
+        { "arg": "query2", "type": "string" }
+      ],
+      "returns": [
+        { "arg": "arg1", "type": "number" },
+        { "arg": "arg2", "type": "number" },
+        { "arg": "query1", "type": "string" },
+        { "arg": "query2", "type": "string" }
+      ],
+      "http": {
+        "verb": "post",
+        "path": "/profile/:arg1/:arg2"
+      }
+    },
+    "customGet": {
+      "accepts": [
+        {
+          "arg": "arg1",
+          "type": "number",
+          "http": {
+            "source": "query"
+          }
+        },
+        {
+          "arg": "arg2",
+          "type": "object",
+          "http": {
+            "source": "query"
+          }
+        },
+        {
+          "arg": "query1",
+          "type": "object",
+          "http": {
+            "source": "query"
+          }
+        },
+        { "arg": "query2", "type": "string" }
+      ],
+      "returns": [{ "arg": "arg1", "root": true, "type": ["Note"] }],
+      "http": {
+        "verb": "get"
+      }
+    },
+    "prototype.customPatch": {
+      "accepts": [{ "arg": "arg1", "type": "number" }],
+      "returns": [{ "arg": "arg1", "type": "number" }],
+      "http": {
+        "verb": "patch"
+      }
+    }
+  }
+}
